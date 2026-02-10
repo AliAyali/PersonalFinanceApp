@@ -1,4 +1,4 @@
-package com.aliayali.personalfinanceapp.presentation.screen.splash
+package com.aliayali.personalfinanceapp.presentation.screens.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -35,22 +35,22 @@ fun SplashScreen(
             }
         }
     }
-    if (splashUiState.isDelayFinished) TODO("navigate to home")
+    if (splashUiState.isDelayFinished) //navigate to home
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Image(
-            modifier = Modifier.size(100.dp),
-            painter = painterResource(id = R.drawable.ic_application),
-            contentDescription = null
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Image(
+                modifier = Modifier.size(100.dp),
+                painter = painterResource(id = R.drawable.ic_application),
+                contentDescription = null
+            )
 
-        TODO("Check Internet")
-    }
+            //Check Internet
+        }
 
 }

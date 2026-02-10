@@ -1,4 +1,4 @@
-package com.aliayali.personalfinanceapp.presentation.screen.splash
+package com.aliayali.personalfinanceapp.presentation.screens.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

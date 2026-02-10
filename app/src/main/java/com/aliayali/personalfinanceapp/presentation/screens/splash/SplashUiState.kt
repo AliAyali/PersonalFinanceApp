@@ -1,4 +1,4 @@
-package com.aliayali.personalfinanceapp.presentation.screen.splash
+package com.aliayali.personalfinanceapp.presentation.screens.splash
 
 data class SplashUiState(
     val isSplashShown: Boolean = false,

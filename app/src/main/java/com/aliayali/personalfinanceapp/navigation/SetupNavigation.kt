@@ -7,8 +7,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.aliayali.personalfinanceapp.presentation.screen.onboardingWelcome.OnboardingWelcomeScreen
-import com.aliayali.personalfinanceapp.presentation.screen.splash.SplashScreen
+import com.aliayali.personalfinanceapp.presentation.screens.onboardingFeatureA.OnboardingFeatureAScreen
+import com.aliayali.personalfinanceapp.presentation.screens.onboardingWelcome.OnboardingWelcomeScreen
+import com.aliayali.personalfinanceapp.presentation.screens.splash.SplashScreen
 
 @Composable
 fun SetupNavigation(
@@ -29,6 +30,11 @@ fun SetupNavigation(
             route = NavigationScreen.OnboardingWelcome.route
         ) {
             OnboardingWelcomeScreen(navController)
+        }
+        composable(
+            route = NavigationScreen.OnboardingFeatureA.route
+        ) {
+            OnboardingFeatureAScreen(navController)
         }
     }
 }
