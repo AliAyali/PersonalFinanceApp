@@ -7,7 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
+import com.aliayali.personalfinanceapp.presentation.theme.ThemeViewModel
 import com.aliayali.personalfinanceapp.navigation.SetupNavigation
 import com.aliayali.personalfinanceapp.ui.theme.PersonalFinanceAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,7 +21,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
-            PersonalFinanceAppTheme {
+            val themeViewModel: ThemeViewModel = hiltViewModel()
+            val isDarkTheme = themeViewModel.isDarkTheme.value
+            PersonalFinanceAppTheme(
+                darkTheme = isDarkTheme
+            ) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     SetupNavigation(
                         innerPadding,

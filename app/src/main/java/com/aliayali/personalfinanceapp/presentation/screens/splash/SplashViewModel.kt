@@ -2,7 +2,7 @@ package com.aliayali.personalfinanceapp.presentation.screens.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aliayali.personalfinanceapp.core.util.SplashPreferences
+import com.aliayali.personalfinanceapp.data.local.datastore.SplashPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

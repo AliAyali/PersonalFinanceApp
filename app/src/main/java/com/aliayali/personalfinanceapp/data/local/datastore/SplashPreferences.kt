@@ -1,4 +1,4 @@
-package com.aliayali.personalfinanceapp.core.util
+package com.aliayali.personalfinanceapp.data.local.datastore
 
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
