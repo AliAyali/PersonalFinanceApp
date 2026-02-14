@@ -144,8 +144,8 @@ fun OnboardingFeatureBScreen(
         Spacer(modifier = Modifier.weight(1f))
         Button(
             onClick = {
-                navController.navigate(NavigationScreen.OnboardingFeatureB.route) {
-                    popUpTo(NavigationScreen.OnboardingFeatureA.route) { inclusive = true }
+                navController.navigate(NavigationScreen.OnboardingFinish.route) {
+                    popUpTo(NavigationScreen.OnboardingFeatureB.route) { inclusive = true }
                     launchSingleTop = true
                 }
             },

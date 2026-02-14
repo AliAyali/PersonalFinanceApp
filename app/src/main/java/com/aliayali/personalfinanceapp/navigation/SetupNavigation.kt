@@ -8,11 +8,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.aliayali.personalfinanceapp.presentation.theme.ThemeViewModel
 import com.aliayali.personalfinanceapp.presentation.screens.onboardingFeatureA.OnboardingFeatureAScreen
 import com.aliayali.personalfinanceapp.presentation.screens.onboardingFeatureB.OnboardingFeatureBScreen
+import com.aliayali.personalfinanceapp.presentation.screens.onboardingFinish.OnboardingFinish
 import com.aliayali.personalfinanceapp.presentation.screens.onboardingWelcome.OnboardingWelcomeScreen
 import com.aliayali.personalfinanceapp.presentation.screens.splash.SplashScreen
+import com.aliayali.personalfinanceapp.presentation.theme.ThemeViewModel
 import com.aliayali.personalfinanceapp.ui.theme.PersonalFinanceAppTheme
 
 @Composable
@@ -52,6 +53,11 @@ fun SetupNavigation(
                 route = NavigationScreen.OnboardingFeatureB.route
             ) {
                 OnboardingFeatureBScreen(navController)
+            }
+            composable(
+                route = NavigationScreen.OnboardingFinish.route
+            ) {
+                OnboardingFinish(navController)
             }
         }
     }
