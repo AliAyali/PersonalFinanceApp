@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -44,6 +45,7 @@ fun OnboardingFeatureBScreen(
     navController: NavController,
     onboardingFeatureBViewModel: OnboardingFeatureBViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
     var showTimePicker by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
@@ -110,9 +112,7 @@ fun OnboardingFeatureBScreen(
                 Switch(
                     modifier = Modifier.scale(0.9f),
                     checked = onboardingFeatureBViewModel.dailyStatus,
-                    onCheckedChange = {
-                        onboardingFeatureBViewModel.onDailyStatusChange(it)
-                    },
+                    onCheckedChange = {},
                 )
                 Text(
                     text = "یادآور روزانه"

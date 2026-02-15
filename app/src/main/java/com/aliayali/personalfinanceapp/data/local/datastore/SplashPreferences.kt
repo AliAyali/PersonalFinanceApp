@@ -9,18 +9,18 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-val Context.dataStore by preferencesDataStore(name = "settings")
+val Context.splashDataStore by preferencesDataStore(name = "settings")
 
 class SplashPreferences @Inject constructor(
     @param:ApplicationContext private val context: Context,
 ) {
     private val splashKey = booleanPreferencesKey("show_splash")
 
-    val showSplash: Flow<Boolean> = context.dataStore.data
+    val showSplash: Flow<Boolean> = context.splashDataStore.data
         .map { prefs -> prefs[splashKey] ?: true }
 
     suspend fun setSplashShown() {
-        context.dataStore.edit { prefs ->
+        context.splashDataStore.edit { prefs ->
             prefs[splashKey] = false
         }
     }

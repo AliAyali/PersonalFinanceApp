@@ -15,11 +15,16 @@ class OnboardingFeatureBViewModel @Inject constructor() : ViewModel() {
     var selectedTime by mutableStateOf("21:00")
         private set
 
-    fun onDailyStatusChange(value: Boolean) {
-        dailyStatus = value
-    }
+    private var selectedHour = 21
+    private var selectedMinute = 0
 
     fun onTimeSelected(hour: Int, minute: Int) {
-        selectedTime = "$hour:$minute"
+        selectedHour = hour
+        selectedMinute = minute
+        updateSelectedTime()
+    }
+
+    private fun updateSelectedTime() {
+        selectedTime = "$selectedHour:$selectedMinute"
     }
 }
