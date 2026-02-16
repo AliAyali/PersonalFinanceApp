@@ -1,13 +1,34 @@
 package com.aliayali.personalfinanceapp.di
 
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import androidx.hilt.work.HiltWorkerFactory
+import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
 
-/**
- * Application class for initializing Hilt dependency injection.
- *
- * Annotating this class with [HiltAndroidApp] triggers Hilt's code generation
- * and sets up the dependency injection container for the entire application.
- */
 @HiltAndroidApp
-class MyApplication : Application()
+class MyApplication : Application(), Configuration.Provider {
+
+    @Inject
+    lateinit var workerFactory: HiltWorkerFactory
+
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
+
+    override fun onCreate() {
+        super.onCreate()
+
+        val channel = NotificationChannel(
+            "daily_channel",
+            "یادآور درس",
+            NotificationManager.IMPORTANCE_DEFAULT
+        )
+
+        val manager = getSystemService(NotificationManager::class.java)
+        manager.createNotificationChannel(channel)
+    }
+}
