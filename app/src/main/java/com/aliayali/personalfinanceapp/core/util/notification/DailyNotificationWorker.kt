@@ -46,8 +46,14 @@ class DailyNotificationWorker @AssistedInject constructor(
         )
 
         val remoteViews = RemoteViews(applicationContext.packageName, R.layout.notification_custom)
-        remoteViews.setTextViewText(R.id.textViewTitle, "\u200fدرس خواندن")
-        remoteViews.setTextViewText(R.id.textViewText, "\u200fوقت درس خواندن رسیده است")
+        remoteViews.setTextViewText(
+            R.id.textViewTitle,
+            "\u200f📊 بررسی وضعیت مالی"
+        )
+        remoteViews.setTextViewText(
+            R.id.textViewText,
+            "\u200fگزارش امروزت رو چک کن و مدیریت هوشمند داشته باش 💰"
+        )
         remoteViews.setTextViewText(
             R.id.textViewAppName,
             applicationContext.getString(R.string.app_name)

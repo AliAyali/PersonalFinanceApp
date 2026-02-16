@@ -28,7 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -37,15 +36,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.aliayali.personalfinanceapp.R
 import com.aliayali.personalfinanceapp.core.util.TimePickerDialogCompose
+import com.aliayali.personalfinanceapp.core.util.notification.RequestNotificationPermission
 import com.aliayali.personalfinanceapp.navigation.NavigationScreen
+import com.aliayali.personalfinanceapp.presentation.screens.notification.NotificationViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OnboardingFeatureBScreen(
     navController: NavController,
     onboardingFeatureBViewModel: OnboardingFeatureBViewModel = hiltViewModel(),
+    notificationViewModel: NotificationViewModel = hiltViewModel(),
 ) {
-    val context = LocalContext.current
+    RequestNotificationPermission()
     var showTimePicker by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
@@ -144,6 +146,7 @@ fun OnboardingFeatureBScreen(
         Spacer(modifier = Modifier.weight(1f))
         Button(
             onClick = {
+                notificationViewModel.scheduleDailyNotification(6, 28)
                 navController.navigate(NavigationScreen.OnboardingFinish.route) {
                     popUpTo(NavigationScreen.OnboardingFeatureB.route) { inclusive = true }
                     launchSingleTop = true

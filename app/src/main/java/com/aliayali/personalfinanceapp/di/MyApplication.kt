@@ -24,7 +24,7 @@ class MyApplication : Application(), Configuration.Provider {
 
         val channel = NotificationChannel(
             "daily_channel",
-            "یادآور درس",
+            "یادآور تدبیر مالی",
             NotificationManager.IMPORTANCE_DEFAULT
         )
 
