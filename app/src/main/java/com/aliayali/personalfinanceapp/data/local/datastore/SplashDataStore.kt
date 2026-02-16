@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 val Context.splashDataStore by preferencesDataStore(name = "settings")
 
-class SplashPreferences @Inject constructor(
+class SplashDataStore @Inject constructor(
     @param:ApplicationContext private val context: Context,
 ) {
     private val splashKey = booleanPreferencesKey("show_splash")

@@ -2,7 +2,7 @@ package com.aliayali.personalfinanceapp.presentation.screens.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aliayali.personalfinanceapp.data.local.datastore.SplashPreferences
+import com.aliayali.personalfinanceapp.data.local.datastore.SplashDataStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    splashPreferences: SplashPreferences,
+    splashPreferences: SplashDataStore,
 ) : ViewModel() {
     private val _shouldShowSplash: StateFlow<Boolean> = splashPreferences.showSplash
         .stateIn(

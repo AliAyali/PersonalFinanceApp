@@ -146,7 +146,8 @@ fun OnboardingFeatureBScreen(
         Spacer(modifier = Modifier.weight(1f))
         Button(
             onClick = {
-                notificationViewModel.scheduleDailyNotification(6, 28)
+                val (hour, minute) = onboardingFeatureBViewModel.getSelectedTime()
+                notificationViewModel.scheduleDailyNotification(hour, minute)
                 navController.navigate(NavigationScreen.OnboardingFinish.route) {
                     popUpTo(NavigationScreen.OnboardingFeatureB.route) { inclusive = true }
                     launchSingleTop = true
@@ -184,6 +185,7 @@ fun OnboardingFeatureBScreen(
         onDismiss = { showTimePicker = false },
         onConfirm = { h, m ->
             onboardingFeatureBViewModel.onTimeSelected(h, m)
+            notificationViewModel.updateNotificationTime(h, m)
         }
     )
 }
