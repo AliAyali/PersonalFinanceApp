@@ -4,17 +4,18 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.work.OneTimeWorkRequestBuilder
 import com.aliayali.personalfinanceapp.core.util.notification.DailyNotificationWorker
 import com.aliayali.personalfinanceapp.data.local.datastore.NotificationDataStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
@@ -22,17 +23,8 @@ class NotificationViewModel @Inject constructor(
     private val notificationDataStore: NotificationDataStore,
 ) : ViewModel() {
 
-    init {
-        viewModelScope.launch {
-            notificationDataStore.notificationTimeFlow.collectLatest { (hour, minute) ->
-                scheduleDailyNotification(hour, minute)
-            }
-        }
-    }
-
     fun scheduleDailyNotification(hour: Int, minute: Int) {
         val now = Calendar.getInstance()
-
         val target = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, hour)
             set(Calendar.MINUTE, minute)
@@ -42,16 +34,15 @@ class NotificationViewModel @Inject constructor(
 
         val delay = target.timeInMillis - now.timeInMillis
 
-        val request = PeriodicWorkRequestBuilder<DailyNotificationWorker>(1, TimeUnit.DAYS)
+        val request = OneTimeWorkRequestBuilder<DailyNotificationWorker>()
             .setInitialDelay(delay, TimeUnit.MILLISECONDS)
             .build()
 
-        WorkManager.getInstance(context)
-            .enqueueUniquePeriodicWork(
-                "daily_notification",
-                ExistingPeriodicWorkPolicy.REPLACE,
-                request
-            )
+        WorkManager.getInstance(context).enqueueUniqueWork(
+            "daily_notification",
+            ExistingWorkPolicy.REPLACE,
+            request
+        )
     }
 
     fun updateNotificationTime(hour: Int, minute: Int) {

@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,7 +28,7 @@ class OnboardingFeatureBViewModel @Inject constructor(
 
         viewModelScope.launch {
             notificationDataStore.notificationTimeFlow.collect { (hour, minute) ->
-                val timeStr = "$hour:$minute"
+                val timeStr = String.format(Locale.getDefault(), "%02d:%02d", hour, minute)
                 _uiState.update { it.copy(hour = hour, minute = minute, selectedTime = timeStr) }
             }
         }
@@ -44,7 +45,7 @@ class OnboardingFeatureBViewModel @Inject constructor(
         viewModelScope.launch {
             notificationDataStore.saveNotificationTime(hour, minute)
         }
-        val timeStr = "$hour:$minute"
+        val timeStr = String.format(Locale.getDefault(), "%02d:%02d", hour, minute)
         _uiState.update { it.copy(hour = hour, minute = minute, selectedTime = timeStr) }
     }
 
