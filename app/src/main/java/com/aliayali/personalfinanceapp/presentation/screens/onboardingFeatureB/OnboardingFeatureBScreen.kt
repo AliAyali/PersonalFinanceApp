@@ -28,7 +28,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -73,9 +72,6 @@ fun OnboardingFeatureBScreen(
                 modifier = Modifier.size(25.dp),
                 painter = painterResource(R.drawable.ic_application),
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(
-                    MaterialTheme.colorScheme.onSurfaceVariant
-                )
             )
         }
         Spacer(Modifier.height(30.dp))

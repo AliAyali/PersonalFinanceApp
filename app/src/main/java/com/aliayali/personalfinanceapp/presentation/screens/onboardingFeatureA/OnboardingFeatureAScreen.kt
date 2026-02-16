@@ -56,10 +56,7 @@ fun OnboardingFeatureAScreen(
             Image(
                 modifier = Modifier.size(25.dp),
                 painter = painterResource(R.drawable.ic_application),
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(
-                    MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                contentDescription = null
             )
         }
         Spacer(Modifier.height(30.dp))
