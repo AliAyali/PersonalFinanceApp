@@ -114,7 +114,9 @@ fun OnboardingFeatureBScreen(
                 Switch(
                     modifier = Modifier.scale(0.9f),
                     checked = onboardingFeatureBViewModel.dailyStatus,
-                    onCheckedChange = {},
+                    onCheckedChange = { enabled ->
+                        onboardingFeatureBViewModel.setDailyStatus(enabled)
+                    },
                 )
                 Text(
                     text = "یادآور روزانه"
@@ -147,7 +149,11 @@ fun OnboardingFeatureBScreen(
         Button(
             onClick = {
                 val (hour, minute) = onboardingFeatureBViewModel.getSelectedTime()
-                notificationViewModel.scheduleDailyNotification(hour, minute)
+                if (onboardingFeatureBViewModel.dailyStatus) {
+                    notificationViewModel.updateNotificationTime(hour, minute)
+                } else {
+                    notificationViewModel.cancelDailyNotification()
+                }
                 navController.navigate(NavigationScreen.OnboardingFinish.route) {
                     popUpTo(NavigationScreen.OnboardingFeatureB.route) { inclusive = true }
                     launchSingleTop = true
@@ -185,7 +191,9 @@ fun OnboardingFeatureBScreen(
         onDismiss = { showTimePicker = false },
         onConfirm = { h, m ->
             onboardingFeatureBViewModel.onTimeSelected(h, m)
-            notificationViewModel.updateNotificationTime(h, m)
+            if (onboardingFeatureBViewModel.dailyStatus) {
+                notificationViewModel.updateNotificationTime(h, m)
+            }
         }
     )
 }

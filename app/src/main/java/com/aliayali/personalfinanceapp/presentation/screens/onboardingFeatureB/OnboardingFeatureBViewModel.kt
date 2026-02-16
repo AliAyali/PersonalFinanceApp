@@ -14,8 +14,24 @@ import javax.inject.Inject
 class OnboardingFeatureBViewModel @Inject constructor(
     private val notificationDataStore: NotificationDataStore,
 ) : ViewModel() {
+
     var dailyStatus by mutableStateOf(true)
         private set
+
+    init {
+        viewModelScope.launch {
+            notificationDataStore.dailyStatusFlow.collect { enabled ->
+                dailyStatus = enabled
+            }
+        }
+    }
+
+    fun setDailyStatus(enabled: Boolean) {
+        dailyStatus = enabled
+        viewModelScope.launch {
+            notificationDataStore.saveDailyStatus(enabled)
+        }
+    }
 
     var selectedTime by mutableStateOf("21:00")
         private set

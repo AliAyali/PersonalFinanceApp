@@ -1,6 +1,7 @@
 package com.aliayali.personalfinanceapp.data.local.datastore
 
 import android.content.Context
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -17,6 +18,7 @@ class NotificationDataStore @Inject constructor(
     companion object {
         private val HOUR_KEY = intPreferencesKey("daily_notification_hour")
         private val MINUTE_KEY = intPreferencesKey("daily_notification_minute")
+        private val DAILY_STATUS_KEY = booleanPreferencesKey("daily_notification_status")
     }
 
     suspend fun saveNotificationTime(hour: Int, minute: Int) {
@@ -32,4 +34,16 @@ class NotificationDataStore @Inject constructor(
             val minute = preferences[MINUTE_KEY] ?: 0
             hour to minute
         }
+
+    suspend fun saveDailyStatus(enabled: Boolean) {
+        context.notificationDataStore.edit { preferences ->
+            preferences[DAILY_STATUS_KEY] = enabled
+        }
+    }
+
+    val dailyStatusFlow: Flow<Boolean> = context.notificationDataStore.data
+        .map { preferences ->
+            preferences[DAILY_STATUS_KEY] ?: true
+        }
+
 }

@@ -60,4 +60,8 @@ class NotificationViewModel @Inject constructor(
         }
         scheduleDailyNotification(hour, minute)
     }
+
+    fun cancelDailyNotification() {
+        WorkManager.getInstance(context).cancelUniqueWork("daily_notification")
+    }
 }
