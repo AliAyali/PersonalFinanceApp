@@ -1,12 +1,12 @@
 package com.aliayali.personalfinanceapp.presentation.screens.onboardingFeatureB
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aliayali.personalfinanceapp.data.local.datastore.NotificationDataStore
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,56 +15,41 @@ class OnboardingFeatureBViewModel @Inject constructor(
     private val notificationDataStore: NotificationDataStore,
 ) : ViewModel() {
 
-    var dailyStatus by mutableStateOf(true)
-        private set
+    private val _uiState = MutableStateFlow(OnboardingFeatureBUiState())
+    val uiState = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
             notificationDataStore.dailyStatusFlow.collect { enabled ->
-                dailyStatus = enabled
+                _uiState.update { it.copy(dailyStatus = enabled) }
+            }
+        }
+
+        viewModelScope.launch {
+            notificationDataStore.notificationTimeFlow.collect { (hour, minute) ->
+                val timeStr = "$hour:$minute"
+                _uiState.update { it.copy(hour = hour, minute = minute, selectedTime = timeStr) }
             }
         }
     }
 
     fun setDailyStatus(enabled: Boolean) {
-        dailyStatus = enabled
         viewModelScope.launch {
             notificationDataStore.saveDailyStatus(enabled)
         }
+        _uiState.update { it.copy(dailyStatus = enabled) }
     }
-
-    var selectedTime by mutableStateOf("21:00")
-        private set
-
-    private var selectedHour = 21
-    private var selectedMinute = 0
-
-    init {
-        viewModelScope.launch {
-            notificationDataStore.notificationTimeFlow.collect { (hour, minute) ->
-                selectedHour = hour
-                selectedMinute = minute
-                updateSelectedTime()
-            }
-        }
-    }
-
 
     fun onTimeSelected(hour: Int, minute: Int) {
-        selectedHour = hour
-        selectedMinute = minute
-        updateSelectedTime()
-
         viewModelScope.launch {
             notificationDataStore.saveNotificationTime(hour, minute)
         }
-    }
-
-    private fun updateSelectedTime() {
-        selectedTime = "$selectedHour:$selectedMinute"
+        val timeStr = "$hour:$minute"
+        _uiState.update { it.copy(hour = hour, minute = minute, selectedTime = timeStr) }
     }
 
     fun getSelectedTime(): Pair<Int, Int> {
-        return selectedHour to selectedMinute
+        val state = _uiState.value
+        return state.hour to state.minute
     }
 }

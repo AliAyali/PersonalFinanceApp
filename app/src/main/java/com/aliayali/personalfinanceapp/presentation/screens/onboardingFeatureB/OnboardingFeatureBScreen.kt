@@ -20,6 +20,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,6 +50,7 @@ fun OnboardingFeatureBScreen(
 ) {
     RequestNotificationPermission()
     var showTimePicker by remember { mutableStateOf(false) }
+    val uiState by onboardingFeatureBViewModel.uiState.collectAsState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -113,7 +115,7 @@ fun OnboardingFeatureBScreen(
             ) {
                 Switch(
                     modifier = Modifier.scale(0.9f),
-                    checked = onboardingFeatureBViewModel.dailyStatus,
+                    checked = uiState.dailyStatus,
                     onCheckedChange = { enabled ->
                         onboardingFeatureBViewModel.setDailyStatus(enabled)
                     },
@@ -136,7 +138,7 @@ fun OnboardingFeatureBScreen(
                     }
                 ) {
                     Text(
-                        text = onboardingFeatureBViewModel.selectedTime,
+                        text = uiState.selectedTime,
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -149,7 +151,7 @@ fun OnboardingFeatureBScreen(
         Button(
             onClick = {
                 val (hour, minute) = onboardingFeatureBViewModel.getSelectedTime()
-                if (onboardingFeatureBViewModel.dailyStatus) {
+                if (uiState.dailyStatus) {
                     notificationViewModel.updateNotificationTime(hour, minute)
                 } else {
                     notificationViewModel.cancelDailyNotification()
@@ -191,7 +193,7 @@ fun OnboardingFeatureBScreen(
         onDismiss = { showTimePicker = false },
         onConfirm = { h, m ->
             onboardingFeatureBViewModel.onTimeSelected(h, m)
-            if (onboardingFeatureBViewModel.dailyStatus) {
+            if (uiState.dailyStatus) {
                 notificationViewModel.updateNotificationTime(h, m)
             }
         }
