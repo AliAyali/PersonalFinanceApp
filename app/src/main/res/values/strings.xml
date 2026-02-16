@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PersonalFinanceApp</string>
+    <string name="title">عنوان</string>
+    <string name="desc">توضیحات</string>
 </resources>
