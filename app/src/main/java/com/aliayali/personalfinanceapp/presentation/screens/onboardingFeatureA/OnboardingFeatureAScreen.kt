@@ -70,7 +70,7 @@ fun OnboardingFeatureAScreen(
                 title = "حالت تاریک",
                 selected = isDarkTheme,
                 onSelect = { themeViewModel.setDarkTheme(true) },
-                modifier = Modifier.width(200.dp)
+                modifier = Modifier.weight(1f)
             )
             Spacer(Modifier.width(20.dp))
             ThemeOption(
@@ -78,7 +78,7 @@ fun OnboardingFeatureAScreen(
                 title = "حالت روشن",
                 selected = !isDarkTheme,
                 onSelect = { themeViewModel.setDarkTheme(false) },
-                modifier = Modifier.width(200.dp)
+                modifier = Modifier.weight(1f)
             )
         }
         Spacer(Modifier.height(30.dp))
