@@ -19,7 +19,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -27,7 +26,7 @@ import androidx.navigation.NavController
 import com.aliayali.personalfinanceapp.R
 import com.aliayali.personalfinanceapp.navigation.NavigationScreen
 import com.aliayali.personalfinanceapp.presentation.screens.onboardingFeatureA.components.ThemeOption
-import com.aliayali.personalfinanceapp.presentation.theme.ThemeViewModel
+import com.aliayali.personalfinanceapp.presentation.screens.theme.ThemeViewModel
 
 @Composable
 fun OnboardingFeatureAScreen(

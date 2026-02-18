@@ -13,7 +13,7 @@ import com.aliayali.personalfinanceapp.presentation.screens.onboardingFeatureB.O
 import com.aliayali.personalfinanceapp.presentation.screens.onboardingFinish.OnboardingFinish
 import com.aliayali.personalfinanceapp.presentation.screens.onboardingWelcome.OnboardingWelcomeScreen
 import com.aliayali.personalfinanceapp.presentation.screens.splash.SplashScreen
-import com.aliayali.personalfinanceapp.presentation.theme.ThemeViewModel
+import com.aliayali.personalfinanceapp.presentation.screens.theme.ThemeViewModel
 import com.aliayali.personalfinanceapp.ui.theme.PersonalFinanceAppTheme
 
 @Composable

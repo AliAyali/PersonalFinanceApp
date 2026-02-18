@@ -1,4 +1,4 @@
-package com.aliayali.personalfinanceapp.presentation.theme
+package com.aliayali.personalfinanceapp.presentation.screens.theme
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel

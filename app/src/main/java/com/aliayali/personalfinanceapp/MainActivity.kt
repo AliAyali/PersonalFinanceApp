@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.aliayali.personalfinanceapp.navigation.SetupNavigation
-import com.aliayali.personalfinanceapp.presentation.theme.ThemeViewModel
+import com.aliayali.personalfinanceapp.presentation.screens.theme.ThemeViewModel
 import com.aliayali.personalfinanceapp.ui.theme.PersonalFinanceAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
