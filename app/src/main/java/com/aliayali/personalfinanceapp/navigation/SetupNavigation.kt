@@ -10,7 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.aliayali.personalfinanceapp.presentation.screens.onboardingFeatureA.OnboardingFeatureAScreen
 import com.aliayali.personalfinanceapp.presentation.screens.onboardingFeatureB.OnboardingFeatureBScreen
-import com.aliayali.personalfinanceapp.presentation.screens.onboardingFinish.OnboardingFinish
+import com.aliayali.personalfinanceapp.presentation.screens.onboardingFinish.OnboardingFinishScreen
 import com.aliayali.personalfinanceapp.presentation.screens.onboardingWelcome.OnboardingWelcomeScreen
 import com.aliayali.personalfinanceapp.presentation.screens.splash.SplashScreen
 import com.aliayali.personalfinanceapp.presentation.screens.theme.ThemeViewModel
@@ -57,7 +57,7 @@ fun SetupNavigation(
             composable(
                 route = NavigationScreen.OnboardingFinish.route
             ) {
-                OnboardingFinish(navController)
+                OnboardingFinishScreen(navController)
             }
         }
     }

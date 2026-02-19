@@ -28,7 +28,6 @@ object DatabaseModule {
             .fallbackToDestructiveMigration()
             .build()
     }
-
     @Provides
     fun provideAccountDao(database: MyDataBase): AccountDao {
         return database.accountDao()
