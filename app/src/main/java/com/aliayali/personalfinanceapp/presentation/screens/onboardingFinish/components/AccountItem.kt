@@ -20,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.aliayali.personalfinanceapp.data.local.database.entity.AccountEntity
+import com.aliayali.personalfinanceapp.presentation.components.formatCardNumber
 import com.aliayali.personalfinanceapp.presentation.mapper.AccountIconMapper
 
 @Composable
@@ -41,7 +42,9 @@ fun AccountItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = account.name,
+            text = account.name.ifBlank {
+                account.cardNumber?.formatCardNumber() ?: ""
+            },
             fontWeight = FontWeight.Bold
         )
         Spacer(Modifier.width(15.dp))
@@ -51,7 +54,6 @@ fun AccountItem(
             modifier = Modifier
                 .size(40.dp)
                 .padding(end = 12.dp),
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
         )
     }
 }

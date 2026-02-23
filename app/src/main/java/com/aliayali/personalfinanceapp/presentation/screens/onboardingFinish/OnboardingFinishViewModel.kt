@@ -39,4 +39,8 @@ class OnboardingFinishViewModel @Inject constructor(
     }
 
     fun getAllAccounts() = accountRepository.getAllAccounts()
+
+    suspend fun insert(account: AccountEntity) {
+        accountRepository.insert(account)
+    }
 }
