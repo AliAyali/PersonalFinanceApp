@@ -17,6 +17,9 @@ class OnboardingFinishViewModel @Inject constructor(
     @param:ApplicationContext private val context: Context,
     private val accountRepository: AccountRepository,
 ) : ViewModel() {
+    suspend fun isCardNumberExists(cardNumber: String): Boolean =
+        accountRepository.isCardNumberExists(cardNumber)
+
     fun createDefaultAccountIfNeeded() {
         val prefs = context.getSharedPreferences("account", Context.MODE_PRIVATE)
         viewModelScope.launch {

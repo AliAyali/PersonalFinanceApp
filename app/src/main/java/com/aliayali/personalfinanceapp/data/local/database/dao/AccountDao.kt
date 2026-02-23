@@ -31,4 +31,7 @@ interface AccountDao {
 
     @Query("SELECT * FROM account_table ORDER BY createdAt DESC")
     fun getAllAccounts(): Flow<List<AccountEntity>>
+
+    @Query("SELECT EXISTS(SELECT 1 FROM account_table WHERE cardNumber = :cardNumber)")
+    suspend fun isCardNumberExists(cardNumber: String): Boolean
 }

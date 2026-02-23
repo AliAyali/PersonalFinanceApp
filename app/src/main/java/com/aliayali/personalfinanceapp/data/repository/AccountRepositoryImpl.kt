@@ -35,4 +35,7 @@ class AccountRepositoryImpl @Inject constructor(
 
     override fun getAllAccounts(): Flow<List<AccountEntity>> =
         dao.getAllAccounts()
+
+    override suspend fun isCardNumberExists(cardNumber: String): Boolean =
+        dao.isCardNumberExists(cardNumber)
 }

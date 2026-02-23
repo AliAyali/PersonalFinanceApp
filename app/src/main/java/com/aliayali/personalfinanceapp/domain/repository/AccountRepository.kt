@@ -11,4 +11,5 @@ interface AccountRepository {
     suspend fun updateBalance(accountId: Long, amount: Long)
     fun getTotalBalance(): Flow<Long?>
     fun getAllAccounts(): Flow<List<AccountEntity>>
+    suspend fun isCardNumberExists(cardNumber: String): Boolean
 }

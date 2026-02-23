@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -27,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,23 +43,30 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.aliayali.personalfinanceapp.R
 import com.aliayali.personalfinanceapp.data.local.database.model.AccountType
+import com.aliayali.personalfinanceapp.presentation.screens.onboardingFinish.OnboardingFinishViewModel
 
 @Composable
 fun AddAccountBottomSheet(
     isVisible: Boolean,
     onDismiss: () -> Unit,
     onSave: (String, String?, String?, AccountType, String) -> Unit,
+    onboardingFinishViewModel: OnboardingFinishViewModel = hiltViewModel(),
 ) {
     var cardNumber by remember { mutableStateOf("") }
     var bankInfo by remember { mutableStateOf<BankInfo?>(null) }
-
     var cardName by remember { mutableStateOf("") }
     var initialInventory by remember { mutableStateOf("") }
     var state by remember { mutableStateOf(true) }
     var switchCardState by remember {
         mutableStateOf(false)
+    }
+    var error by remember { mutableStateOf("") }
+    var exists by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        exists = onboardingFinishViewModel.isCardNumberExists(cardNumber)
     }
 
     FullScreenBottomSheet(isVisible, onDismiss) {
@@ -189,6 +198,25 @@ fun AddAccountBottomSheet(
                         disabledIndicatorColor = Color.Transparent,
                     )
                 )
+                Spacer(Modifier.height(10.dp))
+                if (error.isNotBlank()) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = error,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                        Spacer(Modifier.width(5.dp))
+                        Icon(
+                            imageVector = Icons.Default.Info,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.error
+                        )
+                    }
+                }
                 Spacer(Modifier.height(15.dp))
                 TextField(
                     value = cardName,
@@ -276,13 +304,16 @@ fun AddAccountBottomSheet(
 
             Button(
                 onClick = {
-                    onSave(
-                        cardNumber,
-                        cardName,
-                        initialInventory,
-                        if (state) AccountType.BANK_CARD else AccountType.OTHER,
-                        bankInfo?.name ?: "ic_card"
-                    )
+                    if (exists)
+                        onSave(
+                            cardNumber,
+                            cardName,
+                            initialInventory,
+                            if (state) AccountType.BANK_CARD else AccountType.OTHER,
+                            bankInfo?.name ?: "ic_card"
+                        )
+                    else
+                        error = "قبلا این کارت رو ثبت کردی"
                 },
                 enabled =
                     if (switchCardState)
