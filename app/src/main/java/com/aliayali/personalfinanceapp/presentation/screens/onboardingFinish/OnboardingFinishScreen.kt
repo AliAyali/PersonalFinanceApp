@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -56,6 +57,7 @@ fun OnboardingFinishScreen(
         .getAllAccounts()
         .collectAsState(initial = emptyList())
     val coroutineScope = rememberCoroutineScope()
+    var id by remember { mutableLongStateOf(0L) }
 
     LaunchedEffect(Unit) {
         onboardingFinishViewModel.createDefaultAccountIfNeeded()
@@ -108,7 +110,10 @@ fun OnboardingFinishScreen(
                 Spacer(Modifier.height(20.dp))
             }
             items(accounts) { account ->
-                AccountItem(account)
+                AccountItem(account) {
+                    id = account.id
+                    showAddAccount = true
+                }
             }
             item {
                 Row(
@@ -121,9 +126,9 @@ fun OnboardingFinishScreen(
                         )
                         .padding(15.dp)
                         .clickable {
+                            id = 0L
                             showAddAccount = true
                         },
-
                     horizontalArrangement = Arrangement.End,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -177,6 +182,7 @@ fun OnboardingFinishScreen(
     }
 
     AddAccountBottomSheet(
+        id = id,
         isVisible = showAddAccount,
         onDismiss = { showAddAccount = false },
         onSave = { cardNumber, cardName, initialInventory, accountType, icon ->
@@ -184,6 +190,36 @@ fun OnboardingFinishScreen(
                 onboardingFinishViewModel.insert(
                     AccountEntity(
                         id = 0,
+                        name = cardName.toString(),
+                        type = accountType,
+                        cardNumber = cardNumber,
+                        iconName = icon,
+                        initialBalance = initialInventory?.toLongOrNull() ?: 0L
+                    )
+                )
+            }
+            showAddAccount = false
+        },
+        onUpdate = { id, cardNumber, cardName, initialInventory, accountType, icon ->
+            coroutineScope.launch {
+                onboardingFinishViewModel.update(
+                    AccountEntity(
+                        id = id,
+                        name = cardName.toString(),
+                        type = accountType,
+                        cardNumber = cardNumber,
+                        iconName = icon,
+                        initialBalance = initialInventory?.toLongOrNull() ?: 0L
+                    )
+                )
+            }
+            showAddAccount = false
+        },
+        onDelete = { id, cardNumber, cardName, initialInventory, accountType, icon ->
+            coroutineScope.launch {
+                onboardingFinishViewModel.delete(
+                    AccountEntity(
+                        id = id,
                         name = cardName.toString(),
                         type = accountType,
                         cardNumber = cardNumber,

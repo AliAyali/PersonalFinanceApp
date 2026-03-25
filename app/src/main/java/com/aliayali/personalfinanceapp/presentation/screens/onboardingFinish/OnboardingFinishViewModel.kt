@@ -1,6 +1,8 @@
 package com.aliayali.personalfinanceapp.presentation.screens.onboardingFinish
 
 import android.content.Context
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.core.content.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,6 +19,8 @@ class OnboardingFinishViewModel @Inject constructor(
     @param:ApplicationContext private val context: Context,
     private val accountRepository: AccountRepository,
 ) : ViewModel() {
+    private val _account = mutableStateOf<AccountEntity?>(null)
+    val account: State<AccountEntity?> = _account
     suspend fun isCardNumberExists(cardNumber: String): Boolean =
         accountRepository.isCardNumberExists(cardNumber)
 
@@ -45,5 +49,19 @@ class OnboardingFinishViewModel @Inject constructor(
 
     suspend fun insert(account: AccountEntity) {
         accountRepository.insert(account)
+    }
+
+    suspend fun update(account: AccountEntity) {
+        accountRepository.update(account)
+    }
+
+    suspend fun delete(account: AccountEntity) {
+        accountRepository.delete(account)
+    }
+
+    fun getById(id: Long) {
+        viewModelScope.launch {
+            _account.value = accountRepository.getById(id)
+        }
     }
 }
