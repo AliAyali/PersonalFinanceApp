@@ -30,9 +30,10 @@ import com.aliayali.personalfinanceapp.presentation.screens.onboardingWelcome.co
 @Composable
 fun OnboardingWelcomeScreen(
     navController: NavController,
+    modifier: Modifier,
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(20.dp),
         verticalArrangement = Arrangement.SpaceBetween

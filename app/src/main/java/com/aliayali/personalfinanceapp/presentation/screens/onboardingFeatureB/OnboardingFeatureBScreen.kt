@@ -44,6 +44,7 @@ import com.aliayali.personalfinanceapp.presentation.screens.notification.Notific
 @Composable
 fun OnboardingFeatureBScreen(
     navController: NavController,
+    modifier: Modifier,
     onboardingFeatureBViewModel: OnboardingFeatureBViewModel = hiltViewModel(),
     notificationViewModel: NotificationViewModel = hiltViewModel(),
 ) {
@@ -51,7 +52,7 @@ fun OnboardingFeatureBScreen(
     var showTimePicker by remember { mutableStateOf(false) }
     val uiState by onboardingFeatureBViewModel.uiState.collectAsState()
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(10.dp)
     ) {

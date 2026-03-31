@@ -23,6 +23,7 @@ import com.aliayali.personalfinanceapp.navigation.NavigationScreen
 @Composable
 fun SplashScreen(
     navController: NavController,
+    modifier: Modifier,
     splashViewModel: SplashViewModel = hiltViewModel(),
 ) {
     val splashUiState by splashViewModel.uiState.collectAsState()
@@ -38,7 +39,7 @@ fun SplashScreen(
     if (splashUiState.isDelayFinished) //navigate to home
 
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background),
             horizontalAlignment = Alignment.CenterHorizontally,

@@ -50,6 +50,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun OnboardingFinishScreen(
     navController: NavController,
+    modifier: Modifier,
     onboardingFinishViewModel: OnboardingFinishViewModel = hiltViewModel(),
 ) {
     var showAddAccount by remember { mutableStateOf(false) }
@@ -64,7 +65,7 @@ fun OnboardingFinishScreen(
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(10.dp)
     ) {
@@ -148,8 +149,8 @@ fun OnboardingFinishScreen(
         }
         Button(
             onClick = {
-                navController.navigate(NavigationScreen.OnboardingFinish.route) {
-                    popUpTo(NavigationScreen.OnboardingFeatureB.route) { inclusive = true }
+                navController.navigate(NavigationScreen.Main.route) {
+                    popUpTo(NavigationScreen.OnboardingFinish.route) { inclusive = true }
                     launchSingleTop = true
                 }
             },

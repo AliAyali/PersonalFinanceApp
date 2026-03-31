@@ -6,4 +6,5 @@ sealed class NavigationScreen(val route: String) {
     object OnboardingFeatureA : NavigationScreen("onboardingFeatureA")
     object OnboardingFeatureB : NavigationScreen("onboardingFeatureB")
     object OnboardingFinish : NavigationScreen("onboardingFinish")
+    object Main : NavigationScreen("main")
 }

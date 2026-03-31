@@ -32,10 +32,11 @@ import com.aliayali.personalfinanceapp.presentation.screens.theme.ThemeViewModel
 fun OnboardingFeatureAScreen(
     navController: NavController,
     themeViewModel: ThemeViewModel,
+    modifier: Modifier,
 ) {
     val isDarkTheme = themeViewModel.isDarkTheme.value
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(10.dp)
     ) {

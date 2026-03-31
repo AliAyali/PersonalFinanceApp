@@ -8,6 +8,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.aliayali.personalfinanceapp.presentation.screens.MainScreen
 import com.aliayali.personalfinanceapp.presentation.screens.onboardingFeatureA.OnboardingFeatureAScreen
 import com.aliayali.personalfinanceapp.presentation.screens.onboardingFeatureB.OnboardingFeatureBScreen
 import com.aliayali.personalfinanceapp.presentation.screens.onboardingFinish.OnboardingFinishScreen
@@ -23,41 +24,50 @@ fun SetupNavigation(
 ) {
     val themeViewModel: ThemeViewModel = hiltViewModel()
     val isDarkTheme = themeViewModel.isDarkTheme.value
-    PersonalFinanceAppTheme(
-        darkTheme = isDarkTheme
-    ) {
+
+    PersonalFinanceAppTheme(darkTheme = isDarkTheme) {
         NavHost(
             navController = navController,
-            startDestination = NavigationScreen.Splash.route,
-            modifier = Modifier.padding(padding)
+            startDestination = NavigationScreen.Splash.route
         ) {
-            composable(
-                route = NavigationScreen.Splash.route
-            ) {
-                SplashScreen(navController)
-            }
-            composable(
-                route = NavigationScreen.OnboardingWelcome.route
-            ) {
-                OnboardingWelcomeScreen(navController)
-            }
-            composable(
-                route = NavigationScreen.OnboardingFeatureA.route
-            ) {
-                OnboardingFeatureAScreen(
-                    navController,
-                    themeViewModel
+            composable(NavigationScreen.Splash.route) {
+                SplashScreen(
+                    navController = navController,
+                    modifier = Modifier.padding(padding)
                 )
             }
-            composable(
-                route = NavigationScreen.OnboardingFeatureB.route
-            ) {
-                OnboardingFeatureBScreen(navController)
+
+            composable(NavigationScreen.OnboardingWelcome.route) {
+                OnboardingWelcomeScreen(
+                    navController = navController,
+                    modifier = Modifier.padding(padding)
+                )
             }
-            composable(
-                route = NavigationScreen.OnboardingFinish.route
-            ) {
-                OnboardingFinishScreen(navController)
+
+            composable(NavigationScreen.OnboardingFeatureA.route) {
+                OnboardingFeatureAScreen(
+                    navController = navController,
+                    themeViewModel = themeViewModel,
+                    modifier = Modifier.padding(padding)
+                )
+            }
+
+            composable(NavigationScreen.OnboardingFeatureB.route) {
+                OnboardingFeatureBScreen(
+                    navController = navController,
+                    modifier = Modifier.padding(padding)
+                )
+            }
+
+            composable(NavigationScreen.OnboardingFinish.route) {
+                OnboardingFinishScreen(
+                    navController = navController,
+                    modifier = Modifier.padding(padding)
+                )
+            }
+
+            composable(NavigationScreen.Main.route) {
+                MainScreen()
             }
         }
     }
