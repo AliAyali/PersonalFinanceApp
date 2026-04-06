@@ -195,7 +195,8 @@ fun OnboardingFinishScreen(
                         type = accountType,
                         cardNumber = cardNumber,
                         iconName = icon,
-                        initialBalance = initialInventory?.toLongOrNull() ?: 0L
+                        initialBalance = initialInventory?.toLongOrNull() ?: 0L,
+                        currentBalance = initialInventory?.toLongOrNull() ?: 0L,
                     )
                 )
             }
@@ -210,7 +211,7 @@ fun OnboardingFinishScreen(
                         type = accountType,
                         cardNumber = cardNumber,
                         iconName = icon,
-                        initialBalance = initialInventory?.toLongOrNull() ?: 0L
+                        initialBalance = initialInventory?.toLongOrNull() ?: 0L,
                     )
                 )
             }

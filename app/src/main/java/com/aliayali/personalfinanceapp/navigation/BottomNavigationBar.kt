@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -18,7 +19,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     NavigationBar(
-        containerColor = MaterialTheme.colorScheme.background
+
     ) {
         val currentRoute by navController.currentBackStackEntryAsState()
 
@@ -45,11 +46,11 @@ fun BottomNavigationBar(navController: NavController) {
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = MaterialTheme.colorScheme.onBackground,
                     selectedTextColor = MaterialTheme.colorScheme.onBackground,
-                    indicatorColor = MaterialTheme.colorScheme.background,
+                    indicatorColor = Color.Transparent,
                     unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    disabledIconColor = MaterialTheme.colorScheme.background,
-                    disabledTextColor = MaterialTheme.colorScheme.background,
+                    disabledIconColor = Color.Transparent,
+                    disabledTextColor = Color.Transparent,
                 )
             )
         }

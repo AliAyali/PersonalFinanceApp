@@ -3,8 +3,8 @@ package com.aliayali.personalfinanceapp.ui.theme
 import androidx.compose.ui.graphics.Color
 
 // Light Theme
-val md_theme_light_primary = Color(0xFF2563EB)
-val md_theme_light_onPrimary = Color(0xFFFFFFFF)
+val md_theme_light_primary = Color(0xFF3949AB)
+val md_theme_light_onPrimary = Color(0xF1F0F0FF)
 val md_theme_light_primaryContainer = Color(0xFFDBE2FF)
 val md_theme_light_onPrimaryContainer = Color(0xFF00184A)
 
@@ -18,7 +18,7 @@ val md_theme_light_onError = Color(0xFFFFFFFF)
 val md_theme_light_errorContainer = Color(0xFFFFDAD6)
 val md_theme_light_onErrorContainer = Color(0xFF410002)
 
-val md_theme_light_background = Color(0xFFF9FAFB)
+val md_theme_light_background = Color(0xFFFFFFFF)
 val md_theme_light_onBackground = Color(0xFF1F2937)
 val md_theme_light_surface = Color(0xFFFFFFFF)
 val md_theme_light_onSurface = Color(0xFF1F2937)

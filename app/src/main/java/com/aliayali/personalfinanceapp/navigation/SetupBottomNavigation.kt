@@ -8,18 +8,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.aliayali.personalfinanceapp.presentation.screens.BudgetScreen
-import com.aliayali.personalfinanceapp.presentation.screens.DueScreen
-import com.aliayali.personalfinanceapp.presentation.screens.HomeScreen
-import com.aliayali.personalfinanceapp.presentation.screens.PropertyScreen
-import com.aliayali.personalfinanceapp.presentation.screens.ReportingScreen
+import com.aliayali.personalfinanceapp.presentation.screens.budget.BudgetScreen
+import com.aliayali.personalfinanceapp.presentation.screens.due.DueScreen
+import com.aliayali.personalfinanceapp.presentation.screens.home.HomeScreen
+import com.aliayali.personalfinanceapp.presentation.screens.property.PropertyScreen
+import com.aliayali.personalfinanceapp.presentation.screens.reporting.ReportingScreen
 import com.aliayali.personalfinanceapp.presentation.screens.theme.ThemeViewModel
 import com.aliayali.personalfinanceapp.ui.theme.PersonalFinanceAppTheme
 
 @Composable
 fun SetupBottomNavigation(
     navController: NavHostController,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
 ) {
     val themeViewModel: ThemeViewModel = hiltViewModel()
     val isDarkTheme = themeViewModel.isDarkTheme.value
