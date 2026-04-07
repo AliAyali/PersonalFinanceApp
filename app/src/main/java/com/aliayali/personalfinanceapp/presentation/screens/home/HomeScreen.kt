@@ -12,12 +12,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Search
@@ -36,16 +35,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.aliayali.personalfinanceapp.R
-import com.aliayali.personalfinanceapp.core.util.PersianDate
 import com.aliayali.personalfinanceapp.data.local.database.entity.AccountEntity
+import com.aliayali.personalfinanceapp.data.local.database.entity.NoteEntity
 import com.aliayali.personalfinanceapp.presentation.components.AddAccountBottomSheet
+import com.aliayali.personalfinanceapp.presentation.components.AddNoteBottomSheet
+import com.aliayali.personalfinanceapp.presentation.components.Line
 import com.aliayali.personalfinanceapp.presentation.screens.home.components.AccountItem
 import com.aliayali.personalfinanceapp.presentation.screens.home.components.AccountState
+import com.aliayali.personalfinanceapp.presentation.screens.home.components.NoteItem
 import kotlinx.coroutines.launch
 
 @Composable
@@ -56,9 +59,15 @@ fun HomeScreen(
     val accounts by homeViewModel
         .getAllAccounts()
         .collectAsState(initial = emptyList())
-    var id by remember { mutableLongStateOf(0L) }
+    val notes by homeViewModel
+        .getAllNotes()
+        .collectAsState(initial = emptyList())
+    var accountId by remember { mutableLongStateOf(0L) }
+    var noteId by remember { mutableLongStateOf(0L) }
     var showAccountState by remember { mutableStateOf(false) }
     var showAddAccount by remember { mutableStateOf(false) }
+    var showAddNote by remember { mutableStateOf(false) }
+    val date = homeViewModel.date
     val coroutineScope = rememberCoroutineScope()
     Column(
         modifier = Modifier
@@ -125,7 +134,7 @@ fun HomeScreen(
             ) {
                 items(accounts) { account ->
                     AccountItem(account) {
-                        id = account.id
+                        accountId = account.id
                         showAccountState = true
                     }
                 }
@@ -146,9 +155,10 @@ fun HomeScreen(
                     ) {
                         Text(
                             text = "افزودن حساب کتاب",
-                            color = MaterialTheme.colorScheme.background
+                            color = MaterialTheme.colorScheme.background,
+                            style = MaterialTheme.typography.titleSmall
                         )
-                        Spacer(Modifier.width(10.dp))
+                        Spacer(Modifier.width(5.dp))
                         Icon(
                             imageVector = Icons.Default.Add,
                             contentDescription = null,
@@ -158,7 +168,7 @@ fun HomeScreen(
                     }
                 }
             }
-            Spacer(Modifier.height(30.dp))
+            Spacer(Modifier.height(10.dp))
         }
         Column(
             modifier = Modifier
@@ -168,53 +178,33 @@ fun HomeScreen(
                     color = MaterialTheme.colorScheme.background,
                     shape = RoundedCornerShape(10.dp)
                 )
-                .padding(10.dp),
+                .padding(15.dp),
         ) {
-            Row(
+            Column(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                horizontalAlignment = Alignment.End
             ) {
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(30.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End
                 ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                        contentDescription = null
-                    )
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                        contentDescription = null
-                    )
-                }
-                Column(
-                    horizontalAlignment = Alignment.End
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.End
-                    ) {
-                        Text(
-                            text = "امروز",
-                            fontWeight = FontWeight.SemiBold
-                        )
-                        Spacer(Modifier.width(5.dp))
-                        Icon(
-                            imageVector = Icons.Default.DateRange,
-                            contentDescription = null,
-                            modifier = Modifier.size(20.dp),
-                        )
-                    }
-                    Spacer(Modifier.height(10.dp))
                     Text(
-                        text = PersianDate().getDayOfWeekPersian(
-                            PersianDate().getTodayPersianDate()
-                        ),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = MaterialTheme.typography.labelMedium
+                        text = "امروز",
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Spacer(Modifier.width(5.dp))
+                    Icon(
+                        imageVector = Icons.Default.DateRange,
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp),
                     )
                 }
+                Spacer(Modifier.height(10.dp))
+                Text(
+                    text = date.value,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.labelMedium
+                )
             }
             Spacer(Modifier.height(15.dp))
             Row(
@@ -279,6 +269,10 @@ fun HomeScreen(
                             shape = RoundedCornerShape(15.dp)
                         )
                         .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .clickable {
+                            noteId = 0L
+                            showAddNote = true
+                        }
                 ) {
                     Text(
                         text = "یادداشت",
@@ -294,15 +288,70 @@ fun HomeScreen(
                     )
                 }
             }
+            if (notes.isNotEmpty())
+                Spacer(Modifier.height(15.dp))
+            LazyColumn {
+                items(notes) { note ->
+                    NoteItem(note) {
+                        noteId = note.id
+                        showAddNote = true
+                    }
+                }
+            }
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp)
+                .background(
+                    color = MaterialTheme.colorScheme.background,
+                    shape = RoundedCornerShape(10.dp)
+                )
+                .padding(15.dp),
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End
+            ) {
+                Text(
+                    text = "تراکنش های اخیر",
+                    fontWeight = FontWeight.SemiBold
+                )
+                Spacer(Modifier.width(5.dp))
+                Icon(
+                    painter = painterResource(R.drawable.ic_transactions),
+                    contentDescription = null,
+                    modifier = Modifier.size(20.dp),
+                )
+            }
+            Line(1, 20)
+            if (notes.isNotEmpty())
+                Text(
+                    text = "!هنوز هیج دخل و خرجی ثبت نکردی",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+            else
+                LazyColumn {
+                    items(notes) { note ->
+                        NoteItem(note) {
+                            noteId = note.id
+                            showAddNote = true
+                        }
+                    }
+                }
         }
     }
     AccountState(
-        id = id,
+        id = accountId,
         isVisible = showAccountState,
         onDismiss = { showAccountState = false },
         onSave = { cardNumber, cardName, initialInventory, accountType, icon ->
             coroutineScope.launch {
-                homeViewModel.insert(
+                homeViewModel.insertAccount(
                     AccountEntity(
                         id = 0,
                         name = cardName.toString(),
@@ -317,7 +366,7 @@ fun HomeScreen(
         },
         onUpdate = { id, cardNumber, cardName, initialInventory, accountType, icon ->
             coroutineScope.launch {
-                homeViewModel.update(
+                homeViewModel.updateAccount(
                     AccountEntity(
                         id = id,
                         name = cardName.toString(),
@@ -332,7 +381,7 @@ fun HomeScreen(
         },
         onDelete = { id, cardNumber, cardName, initialInventory, accountType, icon ->
             coroutineScope.launch {
-                homeViewModel.delete(
+                homeViewModel.deleteAccount(
                     AccountEntity(
                         id = id,
                         name = cardName.toString(),
@@ -347,12 +396,12 @@ fun HomeScreen(
         }
     )
     AddAccountBottomSheet(
-        id = id,
+        id = accountId,
         isVisible = showAddAccount,
         onDismiss = { showAddAccount = false },
         onSave = { cardNumber, cardName, initialInventory, accountType, icon ->
             coroutineScope.launch {
-                homeViewModel.insert(
+                homeViewModel.insertAccount(
                     AccountEntity(
                         id = 0,
                         name = cardName.toString(),
@@ -368,7 +417,7 @@ fun HomeScreen(
         },
         onUpdate = { id, cardNumber, cardName, initialInventory, accountType, icon ->
             coroutineScope.launch {
-                homeViewModel.update(
+                homeViewModel.updateAccount(
                     AccountEntity(
                         id = id,
                         name = cardName.toString(),
@@ -383,7 +432,7 @@ fun HomeScreen(
         },
         onDelete = { id, cardNumber, cardName, initialInventory, accountType, icon ->
             coroutineScope.launch {
-                homeViewModel.delete(
+                homeViewModel.deleteAccount(
                     AccountEntity(
                         id = id,
                         name = cardName.toString(),
@@ -395,6 +444,45 @@ fun HomeScreen(
                 )
             }
             showAddAccount = false
+        }
+    )
+    AddNoteBottomSheet(
+        id = noteId,
+        isVisible = showAddNote,
+        onDismiss = {
+            showAddNote = false
+        },
+        onInsert = { detail, date ->
+            coroutineScope.launch {
+                homeViewModel.insertNote(
+                    NoteEntity(
+                        detail = detail,
+                        date = date
+                    )
+                )
+            }
+        },
+        onDelete = { id, detail, date ->
+            coroutineScope.launch {
+                homeViewModel.deleteNote(
+                    NoteEntity(
+                        id = id,
+                        detail = detail,
+                        date = date
+                    )
+                )
+            }
+        },
+        onUpdate = { id, detail, date ->
+            coroutineScope.launch {
+                homeViewModel.updateNote(
+                    NoteEntity(
+                        id = id,
+                        detail = detail,
+                        date = date
+                    )
+                )
+            }
         }
     )
 }

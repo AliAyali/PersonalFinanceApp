@@ -24,7 +24,7 @@ class NoteRepositoryImpl @Inject constructor(
     override fun getAllNotes(): Flow<List<NoteEntity>> =
         dao.getAllNotes()
 
-    override suspend fun getNoteById(noteId: Int): NoteEntity? =
+    override suspend fun getNoteById(noteId: Long): NoteEntity? =
         dao.getNoteById(noteId)
 
     override fun getNotesByDate(date: String): Flow<List<NoteEntity>> =

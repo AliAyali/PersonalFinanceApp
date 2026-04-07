@@ -56,7 +56,7 @@ fun AccountState(
 ) {
     val account = homeViewModel.account.value
     LaunchedEffect(id) {
-        homeViewModel.getById(id)
+        homeViewModel.getAccountById(id)
     }
     var showAddAccount by remember { mutableStateOf(false) }
     FullScreenBottomSheet(isVisible, onDismiss) {

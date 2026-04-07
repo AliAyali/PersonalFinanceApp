@@ -83,42 +83,4 @@ class PersianDate {
         val (jy, jm, jd) = gregorianToJalali(date.year, date.monthValue, date.dayOfMonth)
         return "$jy/$jm/$jd"
     }
-
-    fun getDayOfWeekPersian(date: String): String {
-        val parts = date.split('/')
-        val year = parts[0].toInt()
-        val month = parts[1].toInt()
-        val day = parts[2].toInt()
-        val gregorianDate = LocalDate.now()
-
-        val dayOfWeekEnum = gregorianDate.dayOfWeek
-        val jalaliDayOfWeek = when (dayOfWeekEnum) {
-            DayOfWeek.SATURDAY -> "شنبه"
-            DayOfWeek.SUNDAY -> "یکشنبه"
-            DayOfWeek.MONDAY -> "دوشنبه"
-            DayOfWeek.TUESDAY -> "سه‌شنبه"
-            DayOfWeek.WEDNESDAY -> "چهارشنبه"
-            DayOfWeek.THURSDAY -> "پنج‌شنبه"
-            DayOfWeek.FRIDAY -> "جمعه"
-            else -> "نامعلوم"
-        }
-
-        val monthName = when (month) {
-            1 -> "فروردین"
-            2 -> "اردیبهشت"
-            3 -> "خرداد"
-            4 -> "تیر"
-            5 -> "مرداد"
-            6 -> "شهریور"
-            7 -> "مهر"
-            8 -> "آبان"
-            9 -> "آذر"
-            10 -> "دی"
-            11 -> "بهمن"
-            12 -> "اسفند"
-            else -> ""
-        }
-
-        return "$jalaliDayOfWeek، $day $monthName $year"
-    }
 }
