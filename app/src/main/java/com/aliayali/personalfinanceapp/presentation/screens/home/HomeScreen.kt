@@ -19,7 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
@@ -42,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.aliayali.personalfinanceapp.R
+import com.aliayali.personalfinanceapp.core.util.PersianDate
 import com.aliayali.personalfinanceapp.data.local.database.entity.AccountEntity
 import com.aliayali.personalfinanceapp.presentation.components.AddAccountBottomSheet
 import com.aliayali.personalfinanceapp.presentation.screens.home.components.AccountItem
@@ -208,7 +208,9 @@ fun HomeScreen(
                     }
                     Spacer(Modifier.height(10.dp))
                     Text(
-                        text = "یک شنبه، 16 فروردین",
+                        text = PersianDate().getDayOfWeekPersian(
+                            PersianDate().getTodayPersianDate()
+                        ),
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         style = MaterialTheme.typography.labelMedium
                     )

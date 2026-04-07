@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.aliayali.personalfinanceapp.data.local.database.MyDataBase
 import com.aliayali.personalfinanceapp.data.local.database.dao.AccountDao
+import com.aliayali.personalfinanceapp.data.local.database.dao.NoteDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,8 +29,14 @@ object DatabaseModule {
             .fallbackToDestructiveMigration()
             .build()
     }
+
     @Provides
     fun provideAccountDao(database: MyDataBase): AccountDao {
         return database.accountDao()
+    }
+
+    @Provides
+    fun provideNoteDao(database: MyDataBase): NoteDao {
+        return database.noteDao()
     }
 }
